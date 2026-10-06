@@ -26,23 +26,36 @@ class ClaimsProcessor:
             incident_date=date(2023, 6, 15),
             amount_claimed=3000,
         )
-    
-    def load_policy(self, file_path: Path) -> Policy:
+
+    def load_policies(self) -> list[Policy]:
+        return [
+            Policy(
+                policy_id="POL123",
+                start_date=date(2023, 1, 1),
+                end_date=date(2024, 1, 1),
+                deductible=500,
+                coverage_limit=10000,
+                covered_incidents=[IncidentType.ACCIDENT, IncidentType.FIRE],
+            )
+        ]
+
+    def get_policy(self, claim: Claim, policies: list[Policy]) -> Policy:
         return Policy(
-            policy_id="POL123",
-            start_date=date(2023, 1, 1),
-            end_date=date(2024, 1, 1),
-            deductible=500,
-            coverage_limit=10000,
-            covered_incidents=[IncidentType.ACCIDENT, IncidentType.FIRE],
-        )
+                    policy_id="POL123",
+                    start_date=date(2023, 1, 1),
+                    end_date=date(2024, 1, 1),
+                    deductible=500,
+                    coverage_limit=10000,
+                    covered_incidents=[IncidentType.ACCIDENT, IncidentType.FIRE],
+                )
 
     def evaluate_claim(self, claim: Claim, policy: Policy) -> EvaluationResult:
         return EvaluationResult(approved=True, payout=2500, reason_code=ReasonCode.APPROVED)
 
     def process_claim(self, file_path: Path) -> EvaluationResult:
         claim = self.load_claim(file_path)
-        policy = self.load_policy(file_path)
+        policies = self.load_policies()
+        policy = self.get_policy(claim, policies)
 
         return self.evaluate_claim(claim, policy)
 

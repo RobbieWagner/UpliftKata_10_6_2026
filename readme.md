@@ -3,6 +3,13 @@ To Run the App:
 - navigate to the project folder in a command line
 - run `.\.venv\Scripts\python.exe src\insurance_claims\app.py [LOCAL_PATH_TO_FILE]`
 
+===================
+Commit 3: Readjusting Input Handling, more unit tests
+
+- Readjusted Input Handling to only take in an insurance claim since that seems to be more aligned with the spirit of this Kata.
+- Created a few new unit tests to cover what I will implement next. Need to make sure lists of policies are loaded in correct, and the correct policy is used
+
+Had to pivot a bit since the direction this app was going was incorrect. Changed my mind about how to send in claims, leading to some rework and somewhat drifting away from best practices, in the next commits, I will focus on more incremental changes, and writing more unit tests.
 
 ===================
 Commit 2 : Pass first tests
