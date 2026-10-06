@@ -1,0 +1,16 @@
+{
+  "claim": {
+    "policy_id": "POL123",
+    "incident_type": "fire",
+    "incident_date": "2023-06-15",
+    "amount_claimed": 3000
+  },
+  "policy": {
+    "policy_id": "POL123",
+    "start_date": "2023-01-01",
+    "end_date": "2024-01-01",
+    "deductible": 500,
+    "coverage_limit": 10000,
+    "covered_incidents": ["accident", "fire"]
+  }
+}

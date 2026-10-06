@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "insurance-claims-kata"
+version = "0.1.0"
+description = "Insurance claims processing kata"
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = [
+    "hypothesis>=6.120",
+    "mypy>=1.14",
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+    "ruff>=0.9",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = ["-ra", "--strict-markers"]
+
+[tool.coverage.run]
+branch = true
+source = ["insurance_claims"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "UP"]
+
+[tool.mypy]
+mypy_path = "src"
+python_version = "3.10"
+strict = true
+files = ["src"]
