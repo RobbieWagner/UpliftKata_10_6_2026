@@ -20,34 +20,41 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 class ClaimsProcessor:
     def load_claim(self, file_path: Path) -> Claim:
+        with file_path.open(encoding="utf-8") as json_file:
+            data = json.load(json_file)
+
         return Claim(
-            policy_id="POL123",
-            incident_type=IncidentType.FIRE,
-            incident_date=date(2023, 6, 15),
-            amount_claimed=3000,
+            policy_id=data["policy_id"],
+            incident_type=IncidentType(data["incident_type"]),
+            incident_date=date.fromisoformat(data["incident_date"]),
+            amount_claimed=data["amount_claimed"],
         )
 
     def load_policies(self) -> list[Policy]:
+        policies_file_path = Path(__file__).resolve().parent.parent / "insurance_policies.json"
+        with policies_file_path.open(encoding="utf-8") as json_file:
+            policies_data = json.load(json_file)
+
         return [
             Policy(
-                policy_id="POL123",
-                start_date=date(2023, 1, 1),
-                end_date=date(2024, 1, 1),
-                deductible=500,
-                coverage_limit=10000,
-                covered_incidents=[IncidentType.ACCIDENT, IncidentType.FIRE],
+                policy_id=policy_data["policy_id"],
+                start_date=date.fromisoformat(policy_data["start_date"]),
+                end_date=date.fromisoformat(policy_data["end_date"]),
+                deductible=policy_data["deductible"],
+                coverage_limit=policy_data["coverage_limit"],
+                covered_incidents=[
+                    IncidentType(incident) for incident in policy_data["covered_incidents"]
+                ],
             )
+            for policy_data in policies_data
         ]
 
     def get_policy(self, claim: Claim, policies: list[Policy]) -> Policy:
-        return Policy(
-                    policy_id="POL123",
-                    start_date=date(2023, 1, 1),
-                    end_date=date(2024, 1, 1),
-                    deductible=500,
-                    coverage_limit=10000,
-                    covered_incidents=[IncidentType.ACCIDENT, IncidentType.FIRE],
-                )
+        for policy in policies:
+            if policy.policy_id == claim.policy_id:
+                return policy
+
+        raise LookupError(f"No policy found for policy ID {claim.policy_id!r}")
 
     def evaluate_claim(self, claim: Claim, policy: Policy) -> EvaluationResult:
         return EvaluationResult(approved=True, payout=2500, reason_code=ReasonCode.APPROVED)

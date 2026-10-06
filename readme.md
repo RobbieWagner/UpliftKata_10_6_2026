@@ -4,6 +4,12 @@ To Run the App:
 - run `.\.venv\Scripts\python.exe src\insurance_claims\app.py [LOCAL_PATH_TO_FILE]`
 
 ===================
+Commit 4: Pass policy decision logic tests
+
+- Make sure the correct policy to apply is chosen
+- Make sure errors are thrown when the policy cannot be found
+
+=================== 
 Commit 3: Readjusting Input Handling, more unit tests
 
 - Readjusted Input Handling to only take in an insurance claim since that seems to be more aligned with the spirit of this Kata.
