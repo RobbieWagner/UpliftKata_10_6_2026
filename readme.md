@@ -1,7 +1,17 @@
 To Run the App:
 - create a Json file with the claim and policy you wish to use
 - navigate to the project folder in a command line
-- TODO: INSERT COMMAND TO RUN
+- run `.\.venv\Scripts\python.exe src\insurance_claims\app.py [LOCAL_PATH_TO_FILE]`
+
+
+===================
+Commit 2 : Pass first tests
+
+- Implemented argument gathering to make the app runnable outside of tests (helpful to run specific tests manually).
+- Hardcode policy, claim, and evaluation results to pass first 3 tests.
+
+In the next few commits, I will create more tests outside of this policy/claims setup, and then reevaluate input handling. I think I will have policies defined on the backend, and have users just input claims to better mock real world scenarios.
+
 
 ===================
 Commit 1: Project Setup
