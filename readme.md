@@ -4,6 +4,16 @@ To Run the App:
 - run `.\.venv\Scripts\python.exe src\insurance_claims\app.py [LOCAL_PATH_TO_FILE]`
 
 ===================
+Commit 5: Claim Approval/Denial tests
+
+- create tests to test all business rules dealing with approving vs denying a claim.
+
+A few decisions made: 
+Claims with incident dates equal to the start or end date will be APPROVED
+If payout is 0, claim should be DENIED on top of the zero payout reason code
+Assuming no reasonCode takes precedence over another. If there are two reasons for denial, exact reasonCode provided doesn't matter
+
+===================
 Commit 4: Pass policy decision logic tests
 
 - Make sure the correct policy to apply is chosen
