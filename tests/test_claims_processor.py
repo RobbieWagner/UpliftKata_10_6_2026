@@ -320,6 +320,7 @@ def test_claim_with_zero_or_negative_payout_returns_zero(
         (3000, 500, 2500),
         (1200, 200, 1000),
         (750.5, 50.25, 700.25),
+        (100, 1, 99)
     ],
 )
 def test_payout_is_amount_claimed_minus_deductible(
@@ -339,6 +340,43 @@ def test_payout_is_amount_claimed_minus_deductible(
         end_date=date(2024, 1, 1),
         deductible=deductible,
         coverage_limit=10000,
+        covered_incidents=[IncidentType.FIRE],
+    )
+
+    result = ClaimsProcessor().evaluate_claim(claim, policy)
+
+    assert result.approved is True
+    assert result.payout == expected_payout
+    assert result.reason_code is ReasonCode.APPROVED
+
+
+@pytest.mark.parametrize(
+    ("amount_claimed", "deductible", "limit", "expected_payout"),
+    [
+        (1000000, 10, 10, 10),
+        (1200, 200, 1000, 1000),
+        (750.5, 50.25, 100.1, 100.1),
+        (750.5, 50.25, 700.25, 700.25),
+    ],
+)
+def test_payout_doesnt_exceed_max(
+    amount_claimed: float,
+    deductible: float,
+    limit: float,
+    expected_payout: float,
+) -> None:
+    claim = Claim(
+        policy_id="POL123",
+        incident_type=IncidentType.FIRE,
+        incident_date=date(2023, 6, 15),
+        amount_claimed=amount_claimed,
+    )
+    policy = Policy(
+        policy_id="POL123",
+        start_date=date(2023, 1, 1),
+        end_date=date(2024, 1, 1),
+        deductible=deductible,
+        coverage_limit=limit,
         covered_incidents=[IncidentType.FIRE],
     )
 

@@ -4,6 +4,11 @@ To Run the App:
 - run `.\.venv\Scripts\python.exe src\insurance_claims\app.py [LOCAL_PATH_TO_FILE]`
 
 ===================
+Commit 7: Coverage Limit Tests
+
+- create a unit test for coverage limits
+
+===================
 Commit 6: First Implementation of Evaluate Claim
 
 - evaluate the claim based on the first 4 business rules
