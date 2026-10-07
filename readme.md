@@ -4,6 +4,12 @@ To Run the App:
 - run `.\.venv\Scripts\python.exe src\insurance_claims\app.py [LOCAL_PATH_TO_FILE]`
 
 ===================
+Commit 8: Implement Coverage Limits
+
+- all unit tests pass
+- coverage limits set properly
+
+===================
 Commit 7: Coverage Limit Tests
 
 - create a unit test for coverage limits
