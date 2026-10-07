@@ -66,7 +66,7 @@ class ClaimsProcessor:
         if claim.incident_date > policy.end_date or claim.incident_date < policy.start_date:
             return EvaluationResult(approved=False, payout=0, reason_code=ReasonCode.POLICY_INACTIVE)
 
-        payout = claim.amount_claimed - policy.deductible
+        payout = min(claim.amount_claimed - policy.deductible, policy.coverage_limit)
         return EvaluationResult(approved=True, payout=payout, reason_code=ReasonCode.APPROVED)
 
     def process_claim(self, file_path: Path) -> EvaluationResult:
