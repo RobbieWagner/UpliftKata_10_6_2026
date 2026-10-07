@@ -4,9 +4,18 @@ To Run the App:
 - run `.\.venv\Scripts\python.exe src\insurance_claims\app.py [LOCAL_PATH_TO_FILE]`
 
 ===================
+Commit 6: First Implementation of Evaluate Claim
+
+- evaluate the claim based on the first 4 business rules
+- ensure tests pass
+
+Next commit, I will create unit tests around the coverage limit amount. I will be assuming that the policy is still approved, but payout will not be higher than coverage limit
+
+===================
 Commit 5: Claim Approval/Denial tests
 
 - create tests to test all business rules dealing with approving vs denying a claim.
+- create unit tests for the basic rule "Payout = `amountClaimed - deductible`" since it will effect unit tests later if I dont account for it now
 
 A few decisions made: 
 Claims with incident dates equal to the start or end date will be APPROVED

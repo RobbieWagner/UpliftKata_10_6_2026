@@ -57,7 +57,17 @@ class ClaimsProcessor:
         raise LookupError(f"No policy found for policy ID {claim.policy_id!r}")
 
     def evaluate_claim(self, claim: Claim, policy: Policy) -> EvaluationResult:
-        return EvaluationResult(approved=True, payout=2500, reason_code=ReasonCode.APPROVED)
+        if claim.incident_type not in policy.covered_incidents:
+            return EvaluationResult(approved=False, payout=0, reason_code=ReasonCode.NOT_COVERED)
+
+        if claim.amount_claimed <= policy.deductible:
+            return EvaluationResult(approved=False, payout=0, reason_code=ReasonCode.ZERO_PAYOUT)
+
+        if claim.incident_date > policy.end_date or claim.incident_date < policy.start_date:
+            return EvaluationResult(approved=False, payout=0, reason_code=ReasonCode.POLICY_INACTIVE)
+
+        payout = claim.amount_claimed - policy.deductible
+        return EvaluationResult(approved=True, payout=payout, reason_code=ReasonCode.APPROVED)
 
     def process_claim(self, file_path: Path) -> EvaluationResult:
         claim = self.load_claim(file_path)
