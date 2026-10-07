@@ -87,6 +87,36 @@ def test_get_policy_raises_when_policy_is_not_found() -> None:
         ClaimsProcessor().get_policy(claim, [])
 
 
+def test_get_policy_raises_when_claim_policy_is_not_in_multiple_policies() -> None:
+    claim = Claim(
+        policy_id="UNKNOWN",
+        incident_type=IncidentType.FIRE,
+        incident_date=date(2023, 6, 15),
+        amount_claimed=3000,
+    )
+    policies = [
+        Policy(
+            policy_id="POL123",
+            start_date=date(2023, 1, 1),
+            end_date=date(2024, 1, 1),
+            deductible=500,
+            coverage_limit=10000,
+            covered_incidents=[IncidentType.FIRE],
+        ),
+        Policy(
+            policy_id="POL456",
+            start_date=date(2023, 1, 1),
+            end_date=date(2024, 1, 1),
+            deductible=250,
+            coverage_limit=5000,
+            covered_incidents=[IncidentType.THEFT],
+        ),
+    ]
+
+    with pytest.raises(LookupError, match="No policy found for policy ID 'UNKNOWN'"):
+        ClaimsProcessor().get_policy(claim, policies)
+
+
 # Claim Approval/Denial Tests
 
 

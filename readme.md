@@ -1,7 +1,26 @@
 To Run the App:
-- create a Json file with the claim and policy you wish to use
-- navigate to the project folder in a command line
-- run `.\.venv\Scripts\python.exe src\insurance_claims\app.py [LOCAL_PATH_TO_FILE]`
+- create a Json file containing one claim, for example:
+  ```json
+  {
+    "policy_id": "POL123",
+    "incident_type": "fire",
+    "incident_date": "2023-06-15",
+    "amount_claimed": 3000
+  }
+  ```
+- From the project root, run the app and pass the claim file path:
+  ```powershell
+  .\.venv\Scripts\python.exe src\insurance_claims\app.py path\to\claim.json
+  ```
+
+===================
+Commit 9: Complete App
+
+- Add a missing unit test for populated policy list
+- update readme
+
+This took about 2 hours to make overall. With more time, I would've created more tests/error handling surrounding loading in the policies list/claim, in order to make sure the json loads and there are no missing "required fields". I am assuming with this version that test data is clean and there are no malformed files. I would also probably have added a data formatting method so I dont have to enforce a strict date format, and maybe something for the incident types for more data validation. Otherwise, this meets the requirements of the Kata, and is a complete app runnable to anyone who downloads it.
+
 
 ===================
 Commit 8: Implement Coverage Limits
@@ -65,4 +84,3 @@ Commit 1: Project Setup
 - Created a pytest file, created one simple test that fails in the current state, but should later succeed
 
 Use of Json: decided to use json for input so that tests are quick to make/update. If I want to test on the same input in a few different tests, I can without it crowding up a code file or duplicating the same lines.
-
